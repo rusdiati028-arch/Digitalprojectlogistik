@@ -1,671 +1,910 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
+<!doctype html>
+<html lang="id"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260716-05-1ab63ad"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>DIGITAL PROJECT LOGISTIK - Tracking Paket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment Progress Calculator</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/b19ec5e9a6bcccbf.editing_sdk.js" integrity="sha512-zBJgQuXCQdyGFqXgZwfp8p9NowwbyuWhOK/NGHf9nps+IMSAyeeSyv3qhtfcnKWA9sWownxUevRqEhsjnjL55w=="></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Mono:wght@700&amp;display=swap" rel="stylesheet">
   <style>
+    :root {
+      --ink: #eaf6ff;
+      --muted: #9fb8cd;
+      --navy: #071a2d;
+      --navy-soft: #0d2941;
+      --cyan: #38bdf8;
+      --lime: #a3e635;
+      --danger: #fb7185;
+      --line: rgba(148, 199, 229, 0.18);
+      --glass: rgba(9, 35, 56, 0.82);
+    }
+
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    html {
+      width: 100%;
+      background: #061827;
     }
 
     body {
-      background: linear-gradient(145deg, #eef2f7 0%, #d4dfe9 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1.5rem;
+      width: 100%;
+      margin: 0;
+      min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+      font-family: "DM Sans", sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
     }
 
-    /* Container utama */
-    .track-container {
-      max-width: 1100px;
+    button,
+    input {
+      font: inherit;
+    }
+
+    .app-wrapper {
+      position: relative;
       width: 100%;
-      background: #ffffff;
-      border-radius: 2rem;
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35);
+      min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+      isolation: isolate;
       overflow: hidden;
-      transition: all 0.2s ease;
     }
 
-    /* Header branding */
-    .brand-header {
-      background: #0a2540;
-      padding: 1.5rem 2rem;
-      color: white;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
+    .app-wrapper::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(rgba(89, 178, 224, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(89, 178, 224, 0.055) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+      pointer-events: none;
     }
 
-    .logo-area h1 {
-      font-size: 1.8rem;
-      letter-spacing: -0.5px;
-      font-weight: 700;
+    .glow {
+      position: fixed;
+      z-index: -2;
+      width: 36rem;
+      height: 36rem;
+      border-radius: 999px;
+      filter: blur(80px);
+      opacity: 0.24;
+      pointer-events: none;
     }
 
-    .logo-area p {
-      font-size: 0.85rem;
-      opacity: 0.8;
-      margin-top: 4px;
+    .glow-one {
+      top: -16rem;
+      left: -10rem;
+      background: #0ea5e9;
     }
 
-    .badge {
-      background: #ffb347;
-      padding: 0.4rem 1rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #1e2a36;
+    .glow-two {
+      right: -14rem;
+      bottom: -18rem;
+      background: #84cc16;
+      opacity: 0.16;
     }
 
-    /* Form section */
-    .form-section {
-      background: #f8fafc;
-      padding: 2rem 2rem 1.8rem;
-      border-bottom: 1px solid #e2edf2;
-    }
-
-    .form-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #0a2540;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .form-title i {
-      font-size: 1.7rem;
-    }
-
-    .sub {
-      color: #4a627a;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-    }
-
-    .input-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: flex-end;
-    }
-
-    .resi-field {
-      flex: 3;
-      min-width: 220px;
-    }
-
-    .resi-field label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      color: #1e3a5f;
-      font-size: 0.85rem;
-    }
-
-    .resi-field input {
+    .main-content {
       width: 100%;
-      padding: 0.9rem 1rem;
-      border: 1.5px solid #cbdde6;
-      border-radius: 1.2rem;
-      font-size: 1rem;
-      outline: none;
-      transition: 0.2s;
-      background: white;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 54px 24px 34px;
     }
 
-    .resi-field input:focus {
-      border-color: #ff914d;
-      box-shadow: 0 0 0 3px rgba(255, 145, 77, 0.2);
+    .hero {
+      max-width: 760px;
+      margin-bottom: 30px;
+      animation: rise-in 0.65s ease-out both;
     }
 
-    .btn-track {
-      background: #ff6b35;
-      border: none;
-      padding: 0.9rem 2rem;
-      border-radius: 3rem;
-      font-weight: 700;
-      font-size: 1rem;
-      color: white;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+    .eyebrow-row {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
+      padding: 7px 11px;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 999px;
+      background: rgba(3, 22, 37, 0.48);
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+      margin-bottom: 18px;
     }
 
-    .btn-track:hover {
-      background: #e55a2b;
-      transform: translateY(-2px);
-      box-shadow: 0 12px 20px -8px rgba(255, 107, 53, 0.4);
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--lime);
+      box-shadow: 0 0 0 0 rgba(163, 230, 53, 0.55);
+      animation: pulse-ring 2s infinite;
     }
 
-    /* informasi resmi redirect note */
-    .info-redirect {
-      background: #eef3fc;
-      margin: 0 2rem 1.2rem 2rem;
-      padding: 0.8rem 1.2rem;
-      border-radius: 1rem;
+    .hero h1 {
+      max-width: 720px;
+      margin: 0;
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 18px 0 0;
+      line-height: 1.7;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(340px, 0.94fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .glass-panel {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow:
+        0 26px 70px rgba(0, 6, 16, 0.34),
+        inset 0 1px rgba(255, 255, 255, 0.055);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+    }
+
+    .form-panel {
+      padding: 28px;
+      animation: rise-in 0.65s 0.08s ease-out both;
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 24px;
+    }
+
+    .panel-title-wrap {
       display: flex;
       align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
-      font-size: 0.8rem;
-      color: #2c5a7a;
-      border-left: 4px solid #ff914d;
     }
 
-    /* hasil tracking card */
-    .result-section {
-      padding: 1.8rem 2rem 2.5rem;
+    .panel-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      color: #082235;
+      background: var(--cyan);
+      box-shadow: 0 9px 25px rgba(56, 189, 248, 0.24);
+      flex: 0 0 auto;
     }
 
-    .track-card {
-      background: #ffffff;
-      border-radius: 1.5rem;
-      border: 1px solid #e9f0f3;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+    .step-tag {
+      padding: 6px 10px;
+      border: 1px solid rgba(163, 230, 53, 0.2);
+      border-radius: 999px;
+      background: rgba(163, 230, 53, 0.08);
+      white-space: nowrap;
+    }
+
+    .fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 17px;
+    }
+
+    .field-group {
+      min-width: 0;
+    }
+
+    .field-group.primary-field {
+      grid-column: 1 / -1;
+    }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .field-label svg {
+      width: 16px;
+      height: 16px;
+      color: var(--cyan);
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .number-input {
+      width: 100%;
+      appearance: textfield;
+      padding: 14px 47px 14px 15px;
+      color: #eefaff;
+      background: rgba(2, 17, 29, 0.6);
+      border: 1px solid rgba(148, 199, 229, 0.2);
+      border-radius: 13px;
+      outline: none;
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .number-input::-webkit-inner-spin-button,
+    .number-input::-webkit-outer-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    .number-input::placeholder {
+      color: #68859c;
+    }
+
+    .number-input:hover {
+      border-color: rgba(56, 189, 248, 0.48);
+    }
+
+    .number-input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .input-suffix {
+      position: absolute;
+      top: 50%;
+      right: 13px;
+      transform: translateY(-50%);
+      color: #6f8da3;
+      font-size: 12px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .helper {
+      margin: 9px 0 0;
+      line-height: 1.5;
+    }
+
+    .error-banner {
+      display: none;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 17px;
+      padding: 12px 14px;
+      border: 1px solid rgba(251, 113, 133, 0.36);
+      border-radius: 12px;
+      background: rgba(127, 29, 29, 0.24);
+    }
+
+    .error-banner.is-visible {
+      display: flex;
+      animation: shake 0.34s ease;
+    }
+
+    .error-banner svg {
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      flex: 0 0 auto;
+    }
+
+    .calculate-button,
+    .reset-button {
+      border: 0;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .calculate-button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.22);
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+    }
+
+    .calculate-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(56, 189, 248, 0.3);
+      filter: brightness(1.06);
+    }
+
+    .calculate-button:active {
+      transform: translateY(0);
+    }
+
+    .calculate-button:focus-visible,
+    .reset-button:focus-visible {
+      outline: 3px solid rgba(163, 230, 53, 0.8);
+      outline-offset: 3px;
+    }
+
+    .button-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button-arrow {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: rgba(3, 25, 40, 0.16);
+      transition: transform 180ms ease;
+    }
+
+    .calculate-button:hover .button-arrow {
+      transform: translateX(3px);
+    }
+
+    .result-column {
+      display: grid;
+      gap: 18px;
+      animation: rise-in 0.65s 0.16s ease-out both;
+    }
+
+    .progress-panel {
+      padding: 28px;
+    }
+
+    .progress-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .percentage {
+      font-family: "Space Mono", monospace;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+      color: #f1fbff;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 14px;
+      padding: 3px;
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.28);
+    }
+
+    .progress-fill {
+      position: relative;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      transition: width 700ms cubic-bezier(.2, .8, .2, 1), background 300ms ease;
       overflow: hidden;
     }
 
-    .card-header {
-      background: #fef7e8;
-      padding: 1rem 1.5rem;
-      border-bottom: 2px solid #ffe0b5;
+    .progress-fill::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent);
+      transform: translateX(-100%);
+      animation: shimmer 2.4s infinite;
+    }
+
+    .progress-meta {
       display: flex;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 12px;
+      margin-top: 10px;
+      color: #7794aa;
+      font-size: 12px;
     }
 
-    .resi-badge {
-      font-weight: 800;
-      background: #0a2540;
-      color: white;
-      padding: 0.2rem 0.8rem;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-family: monospace;
+    .state-card {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px dashed rgba(148, 199, 229, 0.25);
+      border-radius: 17px;
+      background: rgba(2, 16, 28, 0.34);
     }
 
-    .status-badge {
-      background: #ffeed9;
-      color: #c25b00;
-      padding: 0.2rem 1rem;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 600;
+    .empty-illustration {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 15px;
+      border-radius: 14px;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.1);
     }
 
-    .track-details {
-      padding: 1.5rem;
+    .state-card h2,
+    .state-card p {
+      margin: 0;
     }
 
-    .detail-row {
+    .state-card p {
+      margin-top: 6px;
+      line-height: 1.55;
+    }
+
+    .results-panel {
+      display: none;
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid rgba(163, 230, 53, 0.2);
+      border-radius: 17px;
+    }
+
+    .results-panel.is-visible {
+      display: block;
+      animation: result-in 0.45s ease-out both;
+    }
+
+    .results-panel h2 {
+      margin: 0 0 15px;
+    }
+
+    .result-total {
       display: flex;
-      border-bottom: 1px solid #ecf3f8;
-      padding: 0.8rem 0;
-      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(148, 199, 229, 0.15);
     }
 
-    .detail-label {
-      width: 130px;
-      font-weight: 600;
-      color: #2c3e4e;
+    .result-total strong {
+      font-family: "Space Mono", monospace;
+      color: var(--lime);
+      font-size: 25px;
     }
 
-    .detail-value {
-      flex: 1;
-      color: #1f2f3e;
-      word-break: break-word;
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 14px;
     }
 
-    .timeline {
-      margin-top: 1rem;
-      background: #fafdff;
-      border-radius: 1rem;
-      padding: 0.5rem 0;
+    .stat {
+      padding: 12px 10px;
+      border-radius: 12px;
+      background: rgba(1, 14, 25, 0.38);
+      text-align: center;
     }
 
-    .timeline-item {
+    .stat span {
+      display: block;
+      color: #83a0b5;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 4px;
+      color: #f3fbff;
+      font-family: "Space Mono", monospace;
+      font-size: 18px;
+    }
+
+    .summary-line {
       display: flex;
-      gap: 1rem;
-      padding: 0.9rem 0;
-      border-bottom: 1px dashed #e1eef9;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 15px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(148, 199, 229, 0.15);
     }
 
-    .timeline-date {
-      min-width: 110px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #4f6f8f;
+    .summary-line strong {
+      color: var(--cyan);
     }
 
-    .timeline-desc {
-      font-size: 0.9rem;
-      color: #1e2f3c;
+    .reset-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 15px;
+      padding: 11px 14px;
+      border: 1px solid rgba(148, 199, 229, 0.22);
+      border-radius: 12px;
+      transition: background 180ms ease, border-color 180ms ease;
     }
 
-    .empty-state {
+    .reset-button:hover {
+      background: rgba(56, 189, 248, 0.1) !important;
+      border-color: rgba(56, 189, 248, 0.45);
+    }
+
+    .formula-panel {
+      display: flex;
+      gap: 14px;
+      padding: 19px 21px;
+    }
+
+    .formula-icon {
+      color: var(--lime);
+      flex: 0 0 auto;
+      margin-top: 2px;
+    }
+
+    .formula-panel h2,
+    .formula-panel p {
+      margin: 0;
+    }
+
+    .formula-panel p {
+      margin-top: 5px;
+      line-height: 1.55;
+    }
+
+    .footer {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px 26px;
       text-align: center;
-      padding: 3rem 1rem;
-      background: #fef9f2;
-      border-radius: 1.5rem;
-      color: #6c8faa;
     }
 
-    .loader {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 0.8s linear infinite;
-      margin-right: 8px;
+    [hidden] {
+      display: none !important;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .error-msg {
-      background: #ffe6e5;
-      border-left: 5px solid #e33;
-      padding: 1rem;
-      border-radius: 1rem;
-      color: #b13b2d;
-      font-weight: 500;
+    @keyframes result-in {
+      from { opacity: 0; transform: scale(0.98) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    footer {
-      text-align: center;
-      padding: 1.2rem;
-      font-size: 0.7rem;
-      color: #6c8da8;
-      background: #f1f5f9;
-      border-top: 1px solid #dee9f0;
+    @keyframes shimmer {
+      0%, 35% { transform: translateX(-110%); }
+      70%, 100% { transform: translateX(110%); }
     }
 
-    @media (max-width: 650px) {
-      .brand-header {
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(163, 230, 53, 0.52); }
+      70% { box-shadow: 0 0 0 7px rgba(163, 230, 53, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(163, 230, 53, 0); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      30% { transform: translateX(-5px); }
+      60% { transform: translateX(4px); }
+    }
+
+    @media (max-width: 820px) {
+      .main-content {
+        padding-top: 36px;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .result-column {
+        grid-row: 2;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .main-content {
+        padding: 28px 15px 24px;
+      }
+
+      .hero {
+        margin-bottom: 22px;
+      }
+
+      .form-panel,
+      .progress-panel {
+        padding: 21px;
+        border-radius: 21px;
+      }
+
+      .fields-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-group.primary-field {
+        grid-column: auto;
+      }
+
+      .panel-top {
+        align-items: flex-start;
+      }
+
+      .step-tag {
+        display: none;
+      }
+
+      .progress-heading {
+        align-items: flex-start;
         flex-direction: column;
-        text-align: center;
       }
-      .detail-label {
-        width: 100%;
-        margin-bottom: 0.3rem;
+
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
-      .input-group {
-        flex-direction: column;
-        align-items: stretch;
+
+      .stat {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
       }
-      .btn-track {
-        justify-content: center;
+
+      .stat strong {
+        margin-top: 0;
       }
-      .form-section, .result-section {
-        padding-left: 1.2rem;
-        padding-right: 1.2rem;
+
+      .footer {
+        padding-inline: 15px;
       }
     }
 
-    button:disabled {
-      opacity: 0.7;
-      transform: none;
-      cursor: not-allowed;
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
-</head>
-<body>
-
-<div class="track-container">
-  <div class="brand-header">
-    <div class="logo-area">
-      <h1>📦 DIGITAL PROJECT LOGISTIK</h1>
-      <p>Solusi cerdas lacak paket • Real-time integration</p>
-    </div>
-    <div class="badge">⚡ Resmi mitra SPX Express</div>
-  </div>
-
-  <div class="form-section">
-    <div class="form-title">
-      <span>🔍 Lacak Pengiriman</span>
-    </div>
-    <div class="sub">Masukkan nomor resi Anda untuk melihat status terkini dari sistem resmi SPX</div>
-    <div class="input-group">
-      <div class="resi-field">
-        <label>✉️ Nomor Resi / AWB</label>
-        <input type="text" id="resiInput" placeholder="Contoh: SPXID063011616324" autocomplete="off" value="SPXID063011616324">
-      </div>
-      <button class="btn-track" id="trackBtn">
-        <span>🔎</span> Lacak Paket
-      </button>
-    </div>
-  </div>
-
-  <div class="info-redirect">
-    <span>📡</span>
-    <span>Data tracking diambil langsung dari <strong>https://spx.co.id/track?SPXID...</strong> (Sumber Resmi PT SPX Express)</span>
-  </div>
-
-  <div class="result-section" id="resultArea">
-    <!-- Dynamic content akan di render disini -->
-    <div class="empty-state" id="defaultEmpty">
-      ✨ Masukkan nomor resi di atas, lalu klik "Lacak Paket" <br> 
-      Contoh: <strong>SPXID063011616324</strong> (sudah tersedia)
-    </div>
-  </div>
-  <footer>
-    © 2025 DIGITAL PROJECT LOGISTIK • Terintegrasi dengan tracking resmi spx.co.id | Hosting siap GitHub
-  </footer>
-</div>
-
-<script>
-  // DOM elements
-  const resiInput = document.getElementById('resiInput');
-  const trackBtn = document.getElementById('trackBtn');
-  const resultArea = document.getElementById('resultArea');
-
-  // --- fungsi untuk fetch data dari official SPX endpoint via CORS proxy (agar dapat berjalan di browser client-side)
-  // Karena API langsung dari spx.co.id tidak mendukung CORS untuk origin berbeda, kita butuh proxy publik/relay.
-  // Untuk keperluan demo production, bisa menggunakan cors-anywhere, atau karena kita akan hosting di GitHub Pages, 
-  // kita siapkan mekanisme fallback: menggunakan proxy CORS publik (corsproxy.io / allorigins) namun dengan resiko rate limit,
-  // atau bisa juga kita menggunakan endpoint JSON yang sudah disediakan? Setelah riset: spx.co.id tidak menyediakan public REST API tanpa API key.
-  // Namun berdasarkan requirement: "yang men direct dari sebuah link website resmi https://spx.co.id/track?SPXID063011616324"
-  // kita akan melakukan teknik scraping / fetch konten halaman tracking resmi kemudian mengekstrak informasi dan menampilkannya di website kita.
-  // Karena origin berbeda, kita tetap butuh proxy CORS. Namun agar benar2 berfungsi di hosting, kita implementasikan dengan CORS proxy publik (cors-anywhere.herokuapp.com sudah kadaluarsa, gunakan allorigins.win atau corsproxy.io)
-  // Tetapi spx.co.id mungkin memiliki proteksi. Saya akan membuat solusi adaptif: Menggunakan "https://api.allorigins.win/get?url=" untuk mengambil HTML halaman tracking,
-  // lalu mem-parsing informasi nomor resi, status, history dan menampilkan di website. Ini memenuhi "men direct dari link resmi" karena datanya langsung dari halaman resmi.
-  
-  // Catatan: allorigins.win memiliki caching ringan, namun cukup untuk demo. Jika error, akan memberi pesan error yang jelas.
-  
-  async function fetchTrackingFromOfficialSPX(resiNumber) {
-    // Pastikan resi tidak kosong, bersihkan spasi
-    const cleanResi = resiNumber.trim();
-    if (!cleanResi) {
-      throw new Error('Nomor resi tidak boleh kosong');
-    }
-    // Membangun URL resmi SPX berdasarkan format: https://spx.co.id/track?SPXID=XXXXXX
-    // Contoh: SPXID063011616324
-    const officialUrl = `https://spx.co.id/track?${cleanResi}`; 
-    // Sebenarnya parameter query berdasarkan analisa: spx.co.id/track?SPXID063011616324 (tanpa tanda =) 
-    // Tapi karena mirip query string tanpa nilai, kita gunakan format asli dari contoh: ?SPXID063011616324 
-    // Agar lebih tepat: gunakan template yang sama persis.
-    const exactUrl = `https://spx.co.id/track?${cleanResi}`;
-    
-    // Menggunakan CORS proxy allorigins (alternatif lebih stabil)
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(exactUrl)}`;
-    
-    const response = await fetch(proxyUrl, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Gagal mengakses server tracking (HTTP ${response.status})`);
-    }
-    
-    const data = await response.json();
-    if (!data || !data.contents) {
-      throw new Error('Respons dari server tidak valid');
-    }
-    
-    const htmlContent = data.contents;
-    // Parse HTML string untuk ekstraksi data tracking
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, 'text/html');
-    
-    // Cek apakah halaman mengandung informasi "Not Found" atau resi tidak ditemukan
-    const bodyText = doc.body?.innerText || '';
-    if (bodyText.includes('Tidak ditemukan') || bodyText.includes('not found') || bodyText.includes('Invalid') || bodyText.includes('No result')) {
-      throw new Error(`Resi ${cleanResi} tidak ditemukan di sistem resmi SPX. Periksa kembali nomor resi Anda.`);
-    }
-    
-    // Ekstraksi data: Nomor resi, status, pengirim/penerima, riwayat
-    // Karena struktur SPX dapat berubah, kami lakukan scraping cerdas dengan selector class / ID umum
-    // Berdasarkan inspeksi: biasanya terdapat div.card, .tracking-result, .status-badge, .timeline
-    let awbNumber = cleanResi;
-    let status = 'Dalam Pengecekan';
-    let origin = '-';
-    let destination = '-';
-    let weight = '-';
-    let courier = 'SPX Express';
-    let timeline = [];
-    
-    // 1. Ambil nomor resi dari tampilan (biasanya di header)
-    const resiElement = doc.querySelector('[data-awb], .awb-number, .resi-number, .tracking-number, strong:contains("No. Resi")');
-    if (resiElement) {
-      awbNumber = resiElement.textContent?.trim() || cleanResi;
-    } else {
-      // cari teks yang mengandung pola SPXID
-      const matchResi = bodyText.match(/SPXID\d{9,}/i);
-      if (matchResi) awbNumber = matchResi[0];
-    }
-    
-    // 2. Status pengiriman
-    const statusEl = doc.querySelector('.status-badge, .delivery-status, .status-label, .track-status');
-    if (statusEl) {
-      status = statusEl.textContent?.trim() || status;
-    } else {
-      // fallback keyword
-      if (bodyText.includes('Delivered') || bodyText.includes('Terkirim')) status = 'Paket Terkirim ✅';
-      else if (bodyText.includes('In Transit') || bodyText.includes('Dalam Perjalanan')) status = 'Dalam Perjalanan 📦';
-      else if (bodyText.includes('Pickup')) status = 'Menunggu Penjemputan';
-      else if (bodyText.includes('Sorting')) status = 'Sorting Center';
-      else status = 'Diterima oleh SPX';
-    }
-    
-    // 3. coba ekstrak asal & tujuan
-    const originEl = doc.querySelector('.origin, .from-city, .sender-address');
-    if (originEl) origin = originEl.textContent?.trim() || origin;
-    const destEl = doc.querySelector('.destination, .to-city, .receiver-address');
-    if (destEl) destination = destEl.textContent?.trim() || destination;
-    
-    // 4. timeline (history)
-    const timelineItems = doc.querySelectorAll('.timeline-item, .history-item, .track-step, .event-item');
-    if (timelineItems.length > 0) {
-      timelineItems.forEach(item => {
-        let dateText = '';
-        let descText = '';
-        // cari date/time dan deskripsi
-        const dateSpan = item.querySelector('.date, .time, .event-date');
-        const descSpan = item.querySelector('.desc, .event-description, .status-text');
-        if (dateSpan) dateText = dateSpan.textContent?.trim() || '';
-        if (descSpan) descText = descSpan.textContent?.trim() || '';
-        if (dateText || descText) {
-          timeline.push({ date: dateText || 'tercatat', description: descText || 'update status' });
-        } else {
-          // jika struktur polos seperti teks baris
-          const fullText = item.textContent?.trim() || '';
-          if (fullText.length > 3) {
-            timeline.push({ date: '', description: fullText });
-          }
-        }
-      });
-    } else {
-      // cari tabel timeline biasa
-      const listDiv = doc.querySelector('.tracking-timeline, .history-wrapper');
-      if (listDiv) {
-        const lines = listDiv.innerText?.split('\n').filter(l => l.trim().length > 0) || [];
-        for (let line of lines.slice(0, 8)) {
-          timeline.push({ date: '', description: line.trim() });
-        }
-      } else {
-        // fallback dummy realistic berdasarkan status dari teks body
-        if (bodyText.includes('Delivered')) {
-          timeline = [{ date: new Date().toLocaleString(), description: 'Paket telah diterima oleh penerima' },
-                      { date: new Date(Date.now() - 86400000).toLocaleString(), description: 'Paket sampai di hub tujuan' }];
-        } else {
-          timeline = [{ date: new Date().toLocaleString(), description: `Data terakhir: ${status}` }];
-        }
-      }
-    }
-    
-    // Ekstrak berat jika ada
-    const weightMatch = bodyText.match(/Berat\s*:?\s*([\d.,]+\s*(kg|gram|g))/i);
-    if (weightMatch) weight = weightMatch[1];
-    
-    // Return object hasil tracking
-    return {
-      resi: awbNumber,
-      status: status,
-      origin: origin,
-      destination: destination,
-      weight: weight,
-      courier: courier,
-      timeline: timeline.slice(0, 6), // max 6 history
-      rawUrl: exactUrl
-    };
-  }
-  
-  // Fungsi untuk menampilkan hasil tracking di UI dengan card
-  function renderTrackingResult(trackingData) {
-    // generate timeline HTML
-    let timelineHtml = '';
-    if (trackingData.timeline && trackingData.timeline.length > 0) {
-      trackingData.timeline.forEach(ev => {
-        timelineHtml += `
-          <div class="timeline-item">
-            <div class="timeline-date">${escapeHtml(ev.date) || '—'}</div>
-            <div class="timeline-desc">${escapeHtml(ev.description)}</div>
-          </div>
-        `;
-      });
-    } else {
-      timelineHtml = '<div class="timeline-item"><div class="timeline-desc">Belum ada riwayat pergerakan detail dari SPX</div></div>';
-    }
-    
-    const html = `
-      <div class="track-card">
-        <div class="card-header">
-          <span class="resi-badge">📄 Resi: ${escapeHtml(trackingData.resi)}</span>
-          <span class="status-badge">📌 ${escapeHtml(trackingData.status)}</span>
+  <script src="/_sdk/e3937a0574eb2d69.data_sdk.js" type="text/javascript" integrity="sha512-xbp/ACqEQy1aDxYMtXTrR3y5MUbzxuggRR/9sD48Gl4VhLMMCiAHsxMaFV6DTdeBpR6ymF+t2zhPKYkWM3+Jfw=="></script>
+  <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
+ </head>
+ <body data-template-id="__page-root" style="background: linear-gradient(135deg, rgb(6, 24, 39), rgb(10, 46, 74));">
+  <div class="app-wrapper">
+   <div class="glow glow-one" aria-hidden="true"></div>
+   <div class="glow glow-two" aria-hidden="true"></div>
+   <main class="main-content">
+    <header class="hero">
+     <div class="eyebrow-row"><span class="pulse-dot" aria-hidden="true"></span> <span data-template-id="eyebrow" class="canva-tag" style="color: rgb(163, 230, 53); font-weight: 700; font-style: normal; font-size: 12px; letter-spacing: 0.08rem;">WORKFLOW CALCULATOR</span>
+     </div>
+     <h1 data-template-id="page-title" class="canva-text" style="color: rgb(241, 250, 255); font-weight: 700; font-style: normal; font-size: 58px; letter-spacing: -0.05rem; line-height: 0.98;">Assignment Progress</h1>
+     <p data-template-id="page-subtitle" class="canva-text" style="color: rgb(168, 194, 213); font-weight: 400; font-style: normal; font-size: 18px; line-height: 1.7;">Ubah data assignment menjadi gambaran progres yang jelas, cepat, dan mudah dipahami.</p>
+    </header>
+    <div class="workspace">
+     <section data-template-id="form-panel" class="canva-panel glass-panel form-panel" aria-labelledby="form-heading" style="background: linear-gradient(145deg, rgba(13, 48, 75, 0.96), rgba(7, 29, 48, 0.94));">
+      <div class="panel-top">
+       <div class="panel-title-wrap">
+        <div class="panel-icon" aria-hidden="true"><i data-lucide="sliders-horizontal"></i>
         </div>
-        <div class="track-details">
-          <div class="detail-row">
-            <div class="detail-label">Kurir</div>
-            <div class="detail-value">${escapeHtml(trackingData.courier)} (SPX Express)</div>
-          </div>
-          <div class="detail-row">
-            <div class="detail-label">Asal</div>
-            <div class="detail-value">${escapeHtml(trackingData.origin)}</div>
-          </div>
-          <div class="detail-row">
-            <div class="detail-label">Tujuan</div>
-            <div class="detail-value">${escapeHtml(trackingData.destination)}</div>
-          </div>
-          <div class="detail-row">
-            <div class="detail-label">Estimasi Berat</div>
-            <div class="detail-value">${escapeHtml(trackingData.weight)}</div>
-          </div>
-          <div class="timeline">
-            <div style="font-weight: 600; margin-bottom: 12px;">📋 Riwayat Pelacakan:</div>
-            ${timelineHtml}
-          </div>
-          <div class="detail-row" style="border-bottom: none; margin-top: 10px;">
-            <div class="detail-label">Sumber data</div>
-            <div class="detail-value"><a href="${escapeHtml(trackingData.rawUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(trackingData.rawUrl)}</a> (Official SPX)</div>
-          </div>
+        <h2 id="form-heading" data-template-id="form-heading" class="canva-text" style="color: rgb(241, 250, 255); font-weight: 700; font-style: normal; font-size: 21px;">Masukkan Data</h2>
+       </div><span data-template-id="step-tag" class="canva-tag step-tag" style="color: rgb(189, 244, 108); font-weight: 700; font-style: normal; font-size: 11px; letter-spacing: 0.06rem;">LANGKAH 01</span>
+      </div>
+      <form id="progress-form" novalidate="">
+       <div class="fields-grid">
+        <div class="field-group primary-field"><label data-template-id="all-label" class="canva-text field-label" for="all-assignment" style="color: rgb(220, 236, 246); font-weight: 600; font-style: normal; font-size: 14px;">All Assignment</label>
+         <div class="input-wrap"><input data-template-id="all-input" class="canva-input number-input" id="all-assignment" name="all_assignment" type="number" min="1" step="1" inputmode="numeric" autocomplete="off" required="" placeholder="Contoh: 100" style="color: rgb(241, 250, 255); font-weight: 400; font-style: normal; font-size: 16px;"> <span class="input-suffix" aria-hidden="true">TOTAL</span>
+         </div>
+         <p data-template-id="all-helper" class="canva-text helper" style="color: rgb(120, 150, 172); font-weight: 400; font-style: normal; font-size: 12px;">Jumlah keseluruhan assignment yang menjadi target.</p>
         </div>
-      </div>
-    `;
-    resultArea.innerHTML = html;
-  }
-  
-  function renderError(errMsg) {
-    resultArea.innerHTML = `
-      <div class="error-msg">
-        <strong>⚠️ Gagal melacak paket</strong><br>
-        ${escapeHtml(errMsg)}<br><br>
-        <span style="font-size: 0.8rem;">💡 Pastikan nomor resi benar dan coba lagi. Contoh: SPXID063011616324<br>
-        <small>(Jika terjadi CORS atau proxy limit, refresh atau coba beberapa saat)</small></span>
-      </div>
-    `;
-  }
-  
-  function renderLoading() {
-    resultArea.innerHTML = `
-      <div class="track-card" style="text-align: center; padding: 2rem;">
-        <div class="loader" style="border-top-color:#ff6b35; border-width:3px; width:32px; height:32px;"></div>
-        <p style="margin-top: 1rem;">Menghubungi server resmi SPX & mengambil data paket...</p>
-        <p style="font-size: 0.7rem; color: gray;">🔒 Data langsung dari https://spx.co.id/track?[resi]</p>
-      </div>
-    `;
-  }
-  
-  // Helper escape HTML
-  function escapeHtml(str) {
-    if (!str) return '-';
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
-    });
-  }
-  
-  // Proses utama tracking
-  async function handleTracking() {
-    let resi = resiInput.value.trim();
-    if (resi === "") {
-      renderError("Harap masukkan nomor resi terlebih dahulu.");
-      return;
-    }
-    // format SPX biasanya diawali SPXID, tapi biarkan user memasukkan bebas
-    if (!resi.match(/SPXID/i) && !resi.match(/^\d{10,}/)) {
-      // hanya warning, tetap lanjutkan
-      console.log("resi tidak standar SPX, tetap proses");
-    }
-    // disable button
-    trackBtn.disabled = true;
-    const originalBtnText = trackBtn.innerHTML;
-    trackBtn.innerHTML = '<div class="loader" style="border-top-color:white;"></div> Memproses...';
-    
-    try {
-      renderLoading();
-      const trackingResult = await fetchTrackingFromOfficialSPX(resi);
-      renderTrackingResult(trackingResult);
-    } catch (error) {
-      console.error(error);
-      let userMsg = error.message || "Terjadi kesalahan saat mengambil data dari SPX.";
-      if (userMsg.includes('Failed to fetch') || userMsg.includes('NetworkError')) {
-        userMsg = "Koneksi gagal atau proxy CORS sibuk. Gunakan mode coba lagi nanti. Pastikan resi valid SPXID...";
+        <div class="field-group"><label data-template-id="submit-label" class="canva-text field-label" for="submit-count" style="color: rgb(220, 236, 246); font-weight: 600; font-style: normal; font-size: 14px;">Submit</label>
+         <div class="input-wrap"><input data-template-id="submit-input" class="canva-input number-input" id="submit-count" name="submit" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" placeholder="0" style="color: rgb(241, 250, 255); font-weight: 400; font-style: normal; font-size: 16px;"> <span class="input-suffix" aria-hidden="true">ITEM</span>
+         </div>
+        </div>
+        <div class="field-group"><label data-template-id="rejected-label" class="canva-text field-label" for="rejected-count" style="color: rgb(220, 236, 246); font-weight: 600; font-style: normal; font-size: 14px;">Rejected</label>
+         <div class="input-wrap"><input data-template-id="rejected-input" class="canva-input number-input" id="rejected-count" name="rejected" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" placeholder="0" style="color: rgb(241, 250, 255); font-weight: 400; font-style: normal; font-size: 16px;"> <span class="input-suffix" aria-hidden="true">ITEM</span>
+         </div>
+        </div>
+        <div class="field-group"><label data-template-id="approve-label" class="canva-text field-label" for="approve-count" style="color: rgb(220, 236, 246); font-weight: 600; font-style: normal; font-size: 14px;">Approve</label>
+         <div class="input-wrap"><input data-template-id="approve-input" class="canva-input number-input" id="approve-count" name="approve" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" placeholder="0" style="color: rgb(241, 250, 255); font-weight: 400; font-style: normal; font-size: 16px;"> <span class="input-suffix" aria-hidden="true">ITEM</span>
+         </div>
+        </div>
+       </div>
+       <div id="error-banner" data-template-id="error-banner" class="canva-banner error-banner" role="alert" aria-live="assertive" style="background: rgba(127, 29, 29, 0.24); color: rgb(253, 164, 175);"><i data-lucide="circle-alert" aria-hidden="true"></i> <span id="error-message">Masukkan jumlah All Assignment yang valid.</span>
+       </div><button data-template-id="calculate-button" class="canva-button calculate-button" type="submit" style="background: linear-gradient(100deg, rgb(56, 189, 248), rgb(163, 230, 53)); color: rgb(6, 32, 51);"> <span class="button-content"> <i data-lucide="calculator" aria-hidden="true"></i> <span data-template-id="calculate-button-text" class="canva-text" style="color: rgb(6, 32, 51); font-weight: 700; font-style: normal; font-size: 16px;">Hitung Progress</span> </span> <span class="button-arrow" aria-hidden="true"> <i data-lucide="arrow-right"></i> </span> </button>
+      </form>
+     </section>
+     <aside class="result-column" aria-label="Ringkasan progres">
+      <section data-template-id="progress-panel" class="canva-panel glass-panel progress-panel" style="background: linear-gradient(145deg, rgba(11, 43, 68, 0.96), rgba(5, 25, 42, 0.96));">
+       <div class="progress-heading">
+        <div><span data-template-id="progress-label" class="canva-text" style="color: rgb(140, 169, 189); font-weight: 700; font-style: normal; font-size: 12px; letter-spacing: 0.08rem;">CURRENT PROGRESS</span>
+        </div><output id="percentage" class="percentage" aria-live="polite">0.00%</output>
+       </div>
+       <div data-template-id="progress-track" class="canva-progress progress-track" role="progressbar" aria-label="Persentase progres assignment" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="background: rgb(5, 21, 33);">
+        <div data-template-id="progress-fill" class="canva-progress progress-fill" id="progress-fill" style="background: linear-gradient(90deg, rgb(6, 182, 212), rgb(56, 189, 248));"></div>
+       </div>
+       <div class="progress-meta" aria-hidden="true"><span>0%</span> <span>50%</span> <span>100%</span>
+       </div>
+       <div id="empty-state" class="state-card">
+        <div class="empty-illustration" aria-hidden="true"><i data-lucide="chart-no-axes-column-increasing"></i>
+        </div>
+        <h2 data-template-id="empty-title" class="canva-text" style="color: rgb(236, 248, 255); font-weight: 700; font-style: normal; font-size: 18px;">Siap menghitung progres</h2>
+        <p data-template-id="empty-description" class="canva-text" style="color: rgb(131, 160, 181); font-weight: 400; font-style: normal; font-size: 14px;">Lengkapi data di sebelah kiri, lalu tekan Hitung Progress untuk melihat ringkasannya.</p>
+       </div>
+       <div id="results-panel" data-template-id="results-panel" class="canva-card results-panel" aria-live="polite" style="background: linear-gradient(145deg, rgba(21, 67, 62, 0.58), rgba(7, 34, 47, 0.68));">
+        <h2 data-template-id="result-title" class="canva-text" style="color: rgb(240, 250, 255); font-weight: 700; font-style: normal; font-size: 18px;">Ringkasan Hasil</h2>
+        <div class="result-total"><span data-template-id="total-progress-label" class="canva-text" style="color: rgb(168, 194, 213); font-weight: 500; font-style: normal; font-size: 14px;">Total Progress</span> <strong id="total-progress">0 / 0</strong>
+        </div>
+        <div class="stats-grid">
+         <div class="stat"><span data-template-id="result-submit-label" class="canva-text" style="color: rgb(131, 160, 181); font-weight: 400; font-style: normal; font-size: 12px;">Submit</span> <strong id="result-submit">0</strong>
+         </div>
+         <div class="stat"><span data-template-id="result-rejected-label" class="canva-text" style="color: rgb(131, 160, 181); font-weight: 400; font-style: normal; font-size: 12px;">Rejected</span> <strong id="result-rejected">0</strong>
+         </div>
+         <div class="stat"><span data-template-id="result-approved-label" class="canva-text" style="color: rgb(131, 160, 181); font-weight: 400; font-style: normal; font-size: 12px;">Approve</span> <strong id="result-approved">0</strong>
+         </div>
+        </div>
+        <div class="summary-line"><span data-template-id="result-percent-label" class="canva-text" style="color: rgb(168, 194, 213); font-weight: 600; font-style: normal; font-size: 14px;">Hasil Progress</span> <strong id="result-percent">0.00%</strong>
+        </div><button id="reset-button" data-template-id="reset-button" class="canva-button reset-button" type="button" style="background: rgba(8, 31, 49, 0.7); color: rgb(184, 210, 227);"> <i data-lucide="refresh-cw" aria-hidden="true"></i> <span data-template-id="reset-button-text" class="canva-text" style="color: rgb(184, 210, 227); font-weight: 600; font-style: normal; font-size: 14px;">Reset Data</span> </button>
+       </div>
+      </section>
+      <section data-template-id="formula-panel" class="canva-panel glass-panel formula-panel" style="background: linear-gradient(135deg, rgba(14, 48, 69, 0.88), rgba(8, 29, 46, 0.9));"><i class="formula-icon" data-lucide="function-square" aria-hidden="true"></i>
+       <div>
+        <h2 data-template-id="formula-title" class="canva-text" style="color: rgb(234, 247, 255); font-weight: 700; font-style: normal; font-size: 15px;">Rumus Perhitungan</h2>
+        <p data-template-id="formula-text" class="canva-text" style="color: rgb(142, 170, 190); font-weight: 700; font-style: normal; font-size: 12px;">(Submit + Rejected + Approve) × 100 ÷ All Assignment</p>
+       </div>
+      </section>
+     </aside>
+    </div>
+   </main>
+   <footer class="footer">
+    <p data-template-id="footer-note" class="canva-text" style="color: rgb(110, 140, 162); font-weight: 400; font-style: normal; font-size: 12px;">Progres dihitung dari seluruh assignment yang telah diproses.</p>
+   </footer>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+
+      const form = document.getElementById("progress-form");
+      const allInput = document.getElementById("all-assignment");
+      const submitInput = document.getElementById("submit-count");
+      const rejectedInput = document.getElementById("rejected-count");
+      const approveInput = document.getElementById("approve-count");
+
+      const errorBanner = document.getElementById("error-banner");
+      const errorMessage = document.getElementById("error-message");
+      const percentage = document.getElementById("percentage");
+      const progressTrack = document.querySelector('[data-template-id="progress-track"]');
+      const progressFill = document.getElementById("progress-fill");
+      const emptyState = document.getElementById("empty-state");
+      const resultsPanel = document.getElementById("results-panel");
+      const resetButton = document.getElementById("reset-button");
+
+      const totalProgress = document.getElementById("total-progress");
+      const resultSubmit = document.getElementById("result-submit");
+      const resultRejected = document.getElementById("result-rejected");
+      const resultApproved = document.getElementById("result-approved");
+      const resultPercent = document.getElementById("result-percent");
+
+      function readNumber(input) {
+        if (input.value.trim() === "") return 0;
+        return Number(input.value);
       }
-      renderError(userMsg + " ⚡ Pastikan nomor resi sesuai contoh: SPXID063011616324");
-    } finally {
-      trackBtn.disabled = false;
-      trackBtn.innerHTML = originalBtnText;
-    }
-  }
-  
-  // Event listeners
-  trackBtn.addEventListener('click', handleTracking);
-  resiInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleTracking();
-    }
-  });
-  
-  // jika halaman pertama kali dan input sudah ada isi contoh, tampilkan default empty state namun tidak otomatis fetch.
-  // user harus klik tombol. (untuk menjaga kuota API)
-  // optional: jika ingin langsung tracking demo, bisa panggil handleTracking? tapi tidak disarankan karena auto fetch.
-  // tapi karena sudah ada contoh SPXID063011616324 yang valid, boleh sekalian auto demo ringan? tidak, sesuai requirement form saja.
-  // namun pengalaman user, bisa ditambahkan welcome demo ringan: tidak masalah.
-  // biarkan manual.
-</script>
-</body>
-</html>
+
+      function showError(message, input) {
+        errorMessage.textContent = message;
+        errorBanner.classList.add("is-visible");
+        if (input) {
+          input.setAttribute("aria-invalid", "true");
+          input.focus();
+        }
+      }
+
+      function clearError() {
+        errorBanner.classList.remove("is-visible");
+        [allInput, submitInput, rejectedInput, approveInput].forEach((input) => {
+          input.removeAttribute("aria-invalid");
+        });
+      }
+
+      function setProgressColor(value) {
+        if (value >= 100) {
+          progressFill.style.background = "linear-gradient(90deg, #84cc16, #bef264)";
+        } else if (value >= 60) {
+          progressFill.style.background = "linear-gradient(90deg, #22c55e, #a3e635)";
+        } else {
+          progressFill.style.background = "linear-gradient(90deg, #06b6d4, #38bdf8)";
+        }
+      }
+
+      function updateResult(all, submitted, rejected, approved) {
+        const total = submitted + rejected + approved;
+        const progress = Math.min((total * 100) / all, 100);
+        const formatted = progress.toFixed(2) + "%";
+
+        progressFill.style.width = progress + "%";
+        setProgressColor(progress);
+        progressTrack.setAttribute("aria-valuenow", progress.toFixed(2));
+        percentage.textContent = formatted;
+
+        totalProgress.textContent = total + " / " + all;
+        resultSubmit.textContent = String(submitted);
+        resultRejected.textContent = String(rejected);
+        resultApproved.textContent = String(approved);
+        resultPercent.textContent = formatted;
+
+        emptyState.hidden = true;
+        resultsPanel.classList.add("is-visible");
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearError();
+
+        const all = readNumber(allInput);
+        const submitted = readNumber(submitInput);
+        const rejected = readNumber(rejectedInput);
+        const approved = readNumber(approveInput);
+        const values = [all, submitted, rejected, approved];
+
+        if (!Number.isFinite(all) || all <= 0) {
+          showError("All Assignment harus lebih besar dari 0.", allInput);
+          return;
+        }
+
+        if (values.some((value) => !Number.isFinite(value) || value < 0)) {
+          showError("Semua nilai harus berupa angka 0 atau lebih.", null);
+          return;
+        }
+
+        if (!values.every(Number.isInteger)) {
+          showError("Gunakan bilangan bulat untuk setiap jumlah assignment.", null);
+          return;
+        }
+
+        const total = submitted + rejected + approved;
+        if (total > all) {
+          showError("Total Submit, Rejected, dan Approve tidak boleh melebihi All Assignment.", null);
+          return;
+        }
+
+        updateResult(all, submitted, rejected, approved);
+      });
+
+      [allInput, submitInput, rejectedInput, approveInput].forEach((input) => {
+        input.addEventListener("input", clearError);
+      });
+
+      resetButton.addEventListener("click", () => {
+        form.reset();
+        clearError();
+
+        progressFill.style.width = "0%";
+        setProgressColor(0);
+        progressTrack.setAttribute("aria-valuenow", "0");
+        percentage.textContent = "0.00%";
+
+        totalProgress.textContent = "0 / 0";
+        resultSubmit.textContent = "0";
+        resultRejected.textContent = "0";
+        resultApproved.textContent = "0";
+        resultPercent.textContent = "0.00%";
+
+        resultsPanel.classList.remove("is-visible");
+        emptyState.hidden = false;
+        allInput.focus();
+      });
+    });
+  </script>
+ 
+</body></html>
